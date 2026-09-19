@@ -1,5 +1,5 @@
-name = "aurionpro-inventory-portal"
-compatibility_date = "2024-01-01"
+name = "laurionpro-inventory-portal"
+compatibility_date = "2026-09-19"
 
 [assets]
 directory = "./"
