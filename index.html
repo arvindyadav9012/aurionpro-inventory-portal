@@ -1,37 +1,216 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Aurionpro Solution - AFC Management NMRC FINAL</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<style>body{background:#f1f5f9;font-family:system-ui}.side{background:#0f2b4d}.page{display:none}.page.active{display:block}select,input,textarea{background:#eef2f5;border:1px solid #cbd5e1}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aurionpro - NMRC FINAL</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#eef2f7}
+.top{background:white;border-bottom:1px solid #ddd;padding:10px 12px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.side{width:210px;background:#0f2b4d;color:white;min-height:100vh;padding:8px;position:fixed;left:0;top:44px;overflow:auto}
+.side div{padding:10px 10px;border-radius:6px;cursor:pointer;font-size:13px;margin-bottom:2px}
+.side div:hover{background:rgba(255,255,255,.1)}
+.active{background:rgba(255,255,255,.25)!important;font-weight:bold}
+.main{margin-left:210px;padding:12px}
+.card{background:white;border-radius:10px;padding:12px;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+@media(max-width:768px){.side{display:none}.main{margin-left:0}.grid4{grid-template-columns:1fr 1fr}}
+label{font-size:11px;color:#334155}
+select,input,textarea{width:100%;background:#eef2f5;border:1px solid #cbd5e1;padding:9px;border-radius:8px;margin-top:4px;font-size:13px}
+.btn{background:#0b66ff;color:white;border:0;padding:9px 18px;border-radius:8px;font-weight:bold;margin-top:12px;cursor:pointer}
+.page{display:none}.page.show{display:block}
+</style>
 </head>
 <body>
-<div class="bg-white border-b px-3 py-2 flex justify-between items-center sticky top-0 z-50">
-<button onclick="document.getElementById('sidebar').classList.toggle('hidden')" class="text-lg">☰</button>
-<div class="font-bold text-[#0f2b4d]">Aurionpro Solution</div>
-<div class="text-xs">Arvind (Employee)</div>
+
+<div class="top">
+<button onclick="document.getElementById('side').style.display=document.getElementById('side').style.display=='none'?'block':'none'" style="font-size:18px;background:none;border:0">☰</button>
+<b style="color:#0f2b4d">Aurionpro Solution</b>
+<span style="margin-left:auto;font-size:12px">Arvind (Employee) ▼</span>
 </div>
-<div class="flex">
-<aside id="sidebar" class="side w-[220px] min-h-screen text-white text-[13px] p-2 hidden md:block fixed md:static top-[41px] z-30">
-<div onclick="showPage('dashboard')" class="flex gap-2 px-3 py-2.5 bg-white/20 rounded cursor-pointer font-bold"><i class="fa-solid fa-table-columns w-5"></i> Dashboard</div>
-<div onclick="showPage('station')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-clipboard w-5"></i> Station AG Inspection</div>
-<div onclick="showPage('pm')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-list-check w-5"></i> PM Check List</div>
-<div onclick="showPage('failure')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-triangle-exclamation text-yellow-400 w-5"></i> Failure Entry</div>
-<div onclick="showPage('material')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-truck w-5"></i> Material Entry</div>
-<div onclick="showPage('inventory')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-boxes-stacked w-5"></i> Inventory Entry</div>
-<div onclick="showPage('add')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-plus w-5"></i> Add New Inventory</div>
-<div onclick="showPage('rolls')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-scroll w-5"></i> Rolls Management</div>
-<div onclick="showPage('reports')" class="flex gap-2 px-3 py-2.5 hover:bg-white/10 rounded cursor-pointer"><i class="fa-solid fa-file-lines w-5"></i> Reports</div>
-</aside>
-<main class="flex-1 p-3 w-full">
-<div id="page-dashboard" class="page active"><div class="font-bold text-sm mb-3">NMRC Dashboard</div><div class="grid grid-cols-2 md:grid-cols-4 gap-3"><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">Failure Today</div><div class="font-bold text-xl">5</div><div class="text-[10px] text-slate-400">Tap to view details</div></div><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">Resolved Today</div><div class="font-bold text-xl">5</div></div><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">Pending Till Now</div><div class="font-bold text-xl">1</div></div><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">Available QR Roll</div><div class="font-bold text-xl">2170</div></div><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">Available TVM Roll</div><div class="font-bold text-xl">1403</div></div><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">Available Wax Roll</div><div class="font-bold text-xl">224</div></div><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">Receipt Roll</div><div class="font-bold text-xl">743</div></div><div class="bg-white rounded-xl p-4 shadow"><div class="text-[11px]">ETM Roll</div><div class="font-bold text-xl">1323</div></div></div></div>
-<div id="page-station" class="page"><div class="font-bold text-sm mb-3">Station AG Inspection - ENTRY OPEN</div><div class="bg-white rounded-xl shadow p-5"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-[12px]">Station Name</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>Select</option><option>Sector 51</option><option>Sector 52</option><option>Alpha 1</option><option>Depot</option></select></div><div><label class="text-[12px]">Equipment Type</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>Select</option><option>AG</option><option>TOM</option></select></div><div><label class="text-[12px]">Equipment Number</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>Select</option><option>AG01</option></select></div><div><label class="text-[12px]">GV7 Status</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>OK</option><option>Not OK</option></select></div><div><label class="text-[12px]">Transaction File Pending?</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>No</option><option>Yes</option></select></div></div><div class="mt-4"><label class="text-[12px]">Equipment Photo</label><input type="file" class="w-full border rounded-lg p-2 mt-1 text-xs"></div><button onclick="alert('Saved!')" class="mt-5 bg-[#0b66ff] text-white px-6 py-2 rounded-lg text-sm font-bold">Submit</button></div></div>
-<div id="page-rolls" class="page"><div class="font-bold text-sm mb-3">Roll Management</div><div class="bg-white rounded-xl shadow p-5"><div class="font-bold text-xs mb-3">Roll Sent</div><div class="grid grid-cols-2 gap-4"><div><label class="text-[12px]">Station</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>Select</option><option>Sector 51</option></select></div><div><label class="text-[12px]">TVM Roll</label><input value="0" class="w-full rounded-lg p-2.5 text-sm mt-1"></div><div><label class="text-[12px]">QR Roll</label><input value="0" class="w-full rounded-lg p-2.5 text-sm mt-1"></div><div><label class="text-[12px]">Wax Roll</label><input value="0" class="w-full rounded-lg p-2.5 text-sm mt-1"></div><div><label class="text-[12px]">ETIM Roll</label><input value="0" class="w-full rounded-lg p-2.5 text-sm mt-1"></div><div><label class="text-[12px]">Receipt Roll</label><input value="0" class="w-full rounded-lg p-2.5 text-sm mt-1"></div></div><button class="mt-4 bg-[#0b66ff] text-white px-6 py-2 rounded-lg text-sm font-bold">Submit Roll Sent</button></div></div>
-<div id="page-failure" class="page"><div class="font-bold text-sm mb-3">Failure Entry Details</div><div class="bg-white rounded-xl shadow p-5"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="text-[12px]">Station Name</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>Select</option><option>Sector 51</option></select></div><div><label class="text-[12px]">Equipment Name</label><select class="w-full rounded-lg p-2.5 text-sm mt-1"><option>Select</option><option>AG</option></select></div></div><button class="mt-5 bg-[#0b66ff] text-white px-6 py-2 rounded-lg text-sm font-bold">Submit</button></div></div>
-</main>
+
+<div style="display:flex">
+<div id="side" class="side">
+<div id="m-dashboard" class="active" onclick="openPage('dashboard')">📊 Dashboard</div>
+<div id="m-station" onclick="openPage('station')">🔍 Station AG Inspection</div>
+<div id="m-pm" onclick="openPage('pm')">📋 PM Check List</div>
+<div id="m-failure" onclick="openPage('failure')">⚠️ Failure Entry</div>
+<div id="m-material" onclick="openPage('material')">📦 Material Entry</div>
+<div id="m-inventory" onclick="openPage('inventory')">📦 Inventory Entry</div>
+<div id="m-add" onclick="openPage('add')">➕ Add New Inventory</div>
+<div id="m-rolls" onclick="openPage('rolls')">📜 Rolls Management</div>
+<div id="m-reports" onclick="openPage('reports')">📄 Reports</div>
+<div style="margin-top:30px;opacity:.6" onclick="alert('Logout')">🚪 Logout</div>
 </div>
-<script>function showPage(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+n).classList.add('active');}</script>
+
+<div class="main">
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page show">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">NMRC Dashboard</div>
+<div class="grid4">
+<div class="card"><div style="font-size:11px">Failure Today</div><div style="font-size:20px;font-weight:bold;margin-top:4px">5</div><div style="font-size:10px;color:gray;margin-top:4px">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Resolved Today</div><div style="font-size:20px;font-weight:bold">5</div><div style="font-size:10px;color:gray">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Pending Today</div><div style="font-size:20px;font-weight:bold">0</div><div style="font-size:10px;color:gray">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Pending Till Now</div><div style="font-size:20px;font-weight:bold">1</div><div style="font-size:10px;color:gray">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Damage Case Till Now</div><div style="font-size:20px;font-weight:bold">0</div><div style="font-size:10px;color:gray">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Inspection Stations Today</div><div style="font-size:20px;font-weight:bold">0</div><div style="font-size:10px;color:gray">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Available QR Roll</div><div style="font-size:20px;font-weight:bold">2170</div><div style="font-size:10px;color:gray">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Available TVM Roll</div><div style="font-size:20px;font-weight:bold">1403</div><div style="font-size:10px;color:gray">Tap to view details</div></div>
+<div class="card"><div style="font-size:11px">Available Wax Roll</div><div style="font-size:20px;font-weight:bold">224</div></div>
+<div class="card"><div style="font-size:11px">Available Receipt Roll</div><div style="font-size:20px;font-weight:bold">743</div></div>
+<div class="card"><div style="font-size:11px">Available ETM Roll</div><div style="font-size:20px;font-weight:bold">1323</div></div>
+<div class="card"><div style="font-size:11px">Today QR Roll Issue</div><div style="font-size:20px;font-weight:bold">0</div></div>
+<div class="card"><div style="font-size:11px">Today TVM Roll Issue</div><div style="font-size:20px;font-weight:bold">0</div></div>
+<div class="card"><div style="font-size:11px">Today Wax Roll Issue</div><div style="font-size:20px;font-weight:bold">0</div></div>
+<div class="card"><div style="font-size:11px">Today Receipt Roll Issue</div><div style="font-size:20px;font-weight:bold">0</div></div>
+<div class="card"><div style="font-size:11px">Today ETM Roll Issue</div><div style="font-size:20px;font-weight:bold">0</div></div>
+</div>
+</div>
+
+<!-- STATION AG - KHULA HUA -->
+<div id="page-station" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">Station AG Inspection</div>
+<div class="card">
+<div class="grid2">
+<div><label>Station Name</label><select><option>Select</option><option>Sector 51</option><option>Sector 52</option><option>Sector 34</option><option>Alpha 1</option><option>Depot</option></select></div>
+<div><label>Equipment Type</label><select><option>Select</option><option>AG</option><option>TOM</option><option>TCM</option><option>SC</option></select></div>
+<div><label>Equipment Number</label><select><option>Select</option><option>AG01</option><option>AG02</option><option>AG03</option></select></div>
+<div><label>Equipment Status / AG Details</label><textarea style="height:40px"></textarea></div>
+<div><label>GV7 Status</label><select><option>OK</option><option>Not OK</option></select></div>
+<div><label>Transaction File Pending?</label><select><option>No</option><option>Yes</option></select></div>
+</div>
+<div style="margin-top:12px"><label>Equipment Photo</label><input type="file"></div>
+<button class="btn" onclick="alert('Station AG Inspection Submitted!')">Submit</button>
+</div>
+</div>
+
+<!-- PM CHECK LIST -->
+<div id="page-pm" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">PM Check List</div>
+<div class="card">
+<div class="grid2">
+<div><label>Station Name *</label><select><option>Select</option><option>Sector 51</option><option>Sector 52</option><option>Depot</option></select></div>
+<div><label>Equipment Type *</label><select><option>Select</option><option>AG</option><option>TOM</option></select></div>
+<div><label>Equipment Number *</label><select><option>Select</option><option>AG01</option></select></div>
+<div><label>APSL Staff *</label><select><option>Select</option><option>Arvind Kumar</option></select></div>
+<div><label>NMRC Staff *</label><input placeholder="Enter NMRC Staff"></div>
+</div>
+<div style="margin-top:12px"><label>PM Photo (Optional)</label><input type="file"></div>
+<button class="btn" onclick="alert('PM Check List Submitted!')">Submit PM Check List</button>
+</div>
+</div>
+
+<!-- FAILURE -->
+<div id="page-failure" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">Failure Entry Details</div>
+<div class="card">
+<div class="grid2">
+<div><label>Station Name</label><select><option>Select</option><option>Sector 51</option></select></div>
+<div><label>Equipment Name</label><select><option>Select</option><option>AG</option><option>TOM</option></select></div>
+<div><label>Equipment Number</label><select><option>Select</option><option>AG01</option></select></div>
+<div><label>Issue Status</label><select><option>Select</option><option>Open</option><option>Resolved</option><option>Pending</option></select></div>
+<div style="grid-column:span 2"><label>Issue Reported</label><textarea style="height:60px"></textarea></div>
+<div><label>APSL Staff Name</label><select><option>Select</option><option>Arvind Kumar</option></select></div>
+<div><label>NMRC Staff Name</label><input></div>
+</div>
+<div style="margin-top:12px"><label>Call Report Photo</label><input type="file"></div>
+<div style="margin-top:12px;display:flex;gap:8px"><button class="btn" style="background:#e9ecef;color:black">Review</button><button class="btn" onclick="alert('Failure Entry Submitted!')">Submit</button></div>
+</div>
+</div>
+
+<!-- MATERIAL -->
+<div id="page-material" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">Material Delivery</div>
+<div class="card">
+<div class="grid2">
+<div><label>Received at Station</label><select><option>Select</option><option>Sector 51</option><option>Depot</option></select></div>
+<div><label>Item Name</label><select><option>Select</option><option>QR Roll</option><option>TVM Roll</option><option>Wax Roll</option></select></div>
+<div><label>Item Serial Number</label><input></div>
+<div><label>Received From</label><input></div>
+</div>
+<button class="btn" onclick="alert('Material Delivery Submitted!')">Submit</button>
+</div>
+</div>
+
+<!-- ROLLS -->
+<div id="page-rolls" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">Roll Management</div>
+<div class="card" style="margin-bottom:12px">
+<div style="font-weight:bold;font-size:12px;margin-bottom:8px">Roll Sent</div>
+<div><label>Station</label><select><option>Select</option><option>Sector 51</option><option>Depot</option></select></div>
+<div class="grid2" style="margin-top:8px">
+<div><label>TVM Roll</label><input value="0"></div>
+<div><label>QR Roll</label><input value="0"></div>
+<div><label>Wax Roll</label><input value="0"></div>
+<div><label>ETIM Roll</label><input value="0"></div>
+<div><label>Receipt Roll</label><input value="0"></div>
+<div><label>Sent Slip Photo</label><input type="file"></div>
+</div>
+<button class="btn" onclick="alert('Roll Sent Submitted!')">Submit Roll Sent</button>
+</div>
+<div class="card">
+<div style="font-weight:bold;font-size:12px;margin-bottom:8px">Roll Received</div>
+<div class="grid2">
+<div><label>Station</label><select><option>Select</option><option>Sector 51</option></select></div>
+<div><label>TVM Roll</label><input value="0"></div>
+<div><label>QR Roll</label><input value="0"></div>
+<div><label>Wax Roll</label><input value="0"></div>
+<div><label>Receipt Roll</label><input value="0"></div>
+<div><label>ETIM Roll</label><input value="0"></div>
+<div><label>Received Slip Photo</label><input type="file"></div>
+</div>
+<button class="btn" onclick="alert('Roll Received Submitted!')">Submit Roll Received</button>
+</div>
+</div>
+
+<!-- ADD INVENTORY -->
+<div id="page-add" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">Add New Inventory</div>
+<div class="card">
+<div><label>Scan / Enter Serial Number *</label><div style="display:flex;gap:6px;margin-top:4px"><input style="flex:1" placeholder="Scan QR / Barcode"><button style="padding:8px 12px;border-radius:8px;border:1px solid #ccc;background:#e9ecef">📷 Scan</button></div></div>
+<div class="grid2" style="margin-top:10px"><div><label>Item Name *</label><input></div><div><label>Item Model *</label><input></div><div style="grid-column:span 2"><label>Assign Equipment *</label><select><option>Select</option><option>AG01</option></select></div></div>
+<button class="btn">Submit</button>
+</div>
+</div>
+
+<!-- INVENTORY ENTRY -->
+<div id="page-inventory" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">Inventory Entry</div>
+<div class="card">
+<div class="grid2">
+<div><label>Station Name</label><select><option>Select</option><option>Sector 51</option></select></div>
+<div><label>Equipment Type</label><select><option>Select</option><option>AG</option></select></div>
+<div><label>Equipment Number</label><select><option>Select</option><option>AG01</option></select></div>
+<div><label>Item Serial Number</label><input></div>
+<div><label>MID</label><input></div>
+<div><label>TID</label><input></div>
+<div style="grid-column:span 2"><label>Remarks</label><textarea style="height:60px"></textarea></div>
+</div>
+<button class="btn">Submit</button>
+</div>
+</div>
+
+<!-- REPORTS -->
+<div id="page-reports" class="page">
+<div style="font-weight:bold;font-size:14px;margin-bottom:10px">Reports</div>
+<div class="card"><button class="btn" style="width:100%" onclick="alert('Report Downloaded!')">📥 Download Inventory Report CSV</button><button class="btn" style="width:100%;background:#0f2b4d;margin-top:8px" onclick="alert('Failure Report Downloaded!')">📥 Download Failure Report</button></div>
+</div>
+
+</div>
+</div>
+
+<script>
+function openPage(name){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+document.getElementById('page-'+name).classList.add('show');
+document.querySelectorAll('.side div').forEach(d=>d.classList.remove('active'));
+document.getElementById('m-'+name).classList.add('active');
+if(window.innerWidth<768){document.getElementById('side').style.display='none';}
+window.scrollTo(0,0);
+}
+</script>
 </body>
 </html>
