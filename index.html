@@ -1,55 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NMRC Portal</title>
+<title>NMRC - Agent Management Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>body{background:#f1f7ff;font-family:Inter,system-ui}</style>
 </head>
-<body style="background:#eaf6ff;font-family:sans-serif">
-<div style="background:white;padding:10px 16px;display:flex;justify-content:space-between;border-bottom:1px solid #ddd">
-<div style="display:flex;align-items:center;gap:10px"><div style="width:40px;height:40px;border:2px solid #0c4252;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#0c4252">M</div><div><b style="color:#0c4252">NMRC</b><div style="font-size:9px">Noida Metro Rail Corp</div></div><div style="width:1px;height:24px;background:#ddd;margin:0 8px"></div><b style="font-size:14px">Agent Management Portal</b></div>
-<div style="font-size:12px"><b>Arvind Kumar</b> - Admin</div>
+<body>
+<!-- HEADER -->
+<div class="bg-white flex justify-between items-center px-4 py-3 border-b shadow-sm">
+<div class="flex items-center gap-3">
+<div class="bg-red-600 text-yellow-400 font-black px-3 py-1.5 rounded-lg text-xl">NMRC</div>
+<div class="text-3xl font-black text-[#0f4a5a]">Agent Management Portal</div>
+</div>
+<div class="flex items-center gap-4 text-xl"><i class="fa-regular fa-bell"></i><i class="fa-solid fa-gear"></i><div class="flex items-center gap-2"><div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold">AD</div><span class="text-sm font-semibold">Admin User <i class="fa-solid fa-caret-down"></i></span></div></div>
 </div>
 
-<div style="display:flex">
-<div style="width:210px;background:#0c4252;color:white;padding:12px;min-height:100vh">
-<div style="background:#1ab5a6;border-radius:8px;padding:10px;font-weight:bold;font-size:14px"><i class="fa-solid fa-house"></i> Dashboard</div>
-<div style="margin-top:12px;font-size:13px;line-height:36px;opacity:0.9">
-<div><i class="fa-solid fa-train"></i> Station AG Inspection</div>
-<div><i class="fa-solid fa-list-check"></i> PM Check List</div>
-<div><i class="fa-solid fa-triangle-exclamation"></i> Failure Entry</div>
-<div><i class="fa-solid fa-cube"></i> Material Entry</div>
-<div><i class="fa-solid fa-box"></i> Inventory Entry</div>
-<div><i class="fa-solid fa-scroll"></i> Rolls Management</div>
-<div><i class="fa-solid fa-chart-bar"></i> Reports</div>
+<div class="flex">
+<!-- SIDEBAR -->
+<div class="w-[240px] bg-[#0c454f] m-3 rounded-[22px] p-4 text-white min-h-[90vh]">
+<div class="text-emerald-300 font-bold text-sm mb-4 mt-2">MENU</div>
+<div class="bg-[#3fca5a] rounded-full px-4 py-3 flex items-center gap-3 font-bold"><i class="fa-regular fa-rectangle-list"></i> Dashboard</div>
+<div class="mt-4 space-y-5 text-[15px] font-medium px-2">
+<div class="flex gap-3"><i class="fa-regular fa-clipboard w-6"></i> Station AG Inspection</div>
+<div class="flex gap-3"><i class="fa-solid fa-list-check w-6"></i> PM Check List</div>
+<div class="flex gap-3"><i class="fa-solid fa-triangle-exclamation w-6"></i> Failure Entry</div>
+<div class="flex gap-3"><i class="fa-solid fa-cube w-6"></i> Material Entry</div>
+<div class="flex gap-3"><i class="fa-solid fa-box w-6"></i> Inventory Entry</div>
+<div class="flex gap-3"><i class="fa-solid fa-plus w-6"></i> Add New Inventory</div>
+<div class="flex gap-3"><i class="fa-solid fa-scroll w-6"></i> Rolls Management</div>
+<div class="flex gap-3"><i class="fa-solid fa-chart-simple w-6"></i> Reports</div>
 </div>
 </div>
 
-<div style="flex:1;padding:12px">
-<div style="background:linear-gradient(to right,#e0f6fb,#cdeaf2);border:1px solid #bde0ec;border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between">
-<div><b style="color:#0c4252">Noida Metro Rail Corporation</b><div style="font-size:11px">Safe | Reliable | Sustainable</div></div>
-<div style="text-align:right"><b style="color:#0c4252">Aqua Line</b><div style="font-size:11px">Noida - Greater Noida</div></div>
+<!-- MAIN -->
+<div class="flex-1 p-3">
+<!-- BANNER -->
+<div class="bg-gradient-to-r from-[#0a8fa8] to-[#14c0b8] rounded-2xl flex justify-between items-center text-white overflow-hidden">
+<div class="p-5"><div class="text-3xl font-bold">Noida Metro Rail Corporation</div><div class="font-semibold">Safe Reliable Sustainable</div><div class="mt-1 flex items-center gap-2"><i class="fa-solid fa-location-dot"></i> Aqua Line Noida - Greater Noida</div></div>
+<img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=500" class="h-[110px] w-[350px] object-cover">
 </div>
 
-<div style="font-weight:bold;color:#0c4252;margin:14px 0 8px;font-size:13px">Dashboard Overview</div>
+<div class="flex justify-between items-center mt-4 mb-3"><div class="text-2xl font-bold text-[#0f1a3a]">Dashboard Overview</div><div class="text-sm">Today: 26 Nov 2024 • Tuesday</div></div>
 
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
-<div style="background:#ff5252;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-triangle-exclamation" style="background:white;color:#ff5252;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Failure Today</div><div style="font-size:20px;font-weight:900">5</div></div>
-<div style="background:#22c55e;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-check" style="background:white;color:#22c55e;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Resolved Today</div><div style="font-size:20px;font-weight:900">5</div></div>
-<div style="background:#f59e0b;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-clock" style="background:white;color:#f59e0b;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Pending Today</div><div style="font-size:20px;font-weight:900">0</div></div>
-<div style="background:#a855f7;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-hourglass-half" style="background:white;color:#a855f7;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Pending Till Now</div><div style="font-size:20px;font-weight:900">1</div></div>
+<!-- 16 CARDS - EXACT MATCH -->
+<div class="grid grid-cols-4 gap-3">
+<div class="bg-[#ff6b6b] rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-solid fa-triangle-exclamation text-xl"></i> Failure Today</div><div class="text-center text-3xl font-black mt-1">5</div></div>
+<div class="bg-[#6bde6b] rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-regular fa-circle-check text-xl"></i> Resolved Today</div><div class="text-center text-3xl font-black mt-1">5</div></div>
+<div class="bg-[#ff9f43] rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-solid fa-hourglass-start text-xl"></i> Pending Today</div><div class="text-center text-3xl font-black mt-1">0</div></div>
+<div class="bg-[#a55eea] rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-regular fa-clock text-xl"></i> Pending Till Now</div><div class="text-center text-3xl font-black mt-1">1</div></div>
 
-<div style="background:#0ea5e9;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Damage Case Till Now</div><div style="font-size:20px;font-weight:900">0</div></div>
-<div style="background:#06b6d4;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Inspection Stations Today</div><div style="font-size:20px;font-weight:900">0</div></div>
-<div style="background:#6366f1;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available QR Roll</div><div style="font-size:20px;font-weight:900">2170</div></div>
-<div style="background:#ec4899;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available TVM Roll</div><div style="font-size:20px;font-weight:900">1403</div></div>
+<div class="bg-[#4b8bff] rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-solid fa-wrench text-xl"></i> Damage Case Till Now</div><div class="text-center text-3xl font-black mt-1">0</div></div>
+<div class="bg-[#2ec4d6] rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-solid fa-magnifying-glass text-xl"></i> Inspection Stations Today</div><div class="text-center text-3xl font-black mt-1">0</div></div>
+<div class="bg-[#2d2a8a] text-white rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-solid fa-qrcode text-xl"></i> Available QR Roll</div><div class="text-center text-3xl font-black mt-1">2170</div></div>
+<div class="bg-[#ff8ec1] rounded-xl p-3 flex flex-col"><div class="flex gap-2 font-bold text-[13px]"><i class="fa-solid fa-ticket text-xl"></i> Available TVM Roll</div><div class="text-center text-3xl font-black mt-1">1403</div></div>
 
-<div style="background:#f59e0b;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available Wax Roll</div><div style="font-size:20px;font-weight:900">224</div></div>
-<div style="background:#7c3aed;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available Receipt Roll</div><div style="font-size:20px;font-weight:900">743</div></div>
-<div style="background:#10b981;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available ETM Roll</div><div style="font-size:20px;font-weight:900">1323</div></div>
-<div style="background:#0ea5e9;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Today QR Roll Issue</div><div style="font-size:20px;font-weight:900">0</div></div>
-
-<div style="background:#14b8a6;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Today TVM Roll Issue</div><div style="font-size:20px;font-weight:900">0</div></div>
-<div style="background:#ef4444;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Today Wax Roll Issue</div><div style="font-size:20px;font-weight:900">0</div></div>
-<div style="background
+<div class="bg-
