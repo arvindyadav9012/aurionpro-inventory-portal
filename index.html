@@ -1,63 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>NMRC - Agent Management Portal</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NMRC Portal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<style>body{background:#eaf3fb;font-family:Inter,sans-serif}.sidebar{background:#0b3f50}</style>
 </head>
-<body>
-<div class="bg-white flex justify-between items-center px-4 py-2 border-b sticky top-0 z-30">
-<div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full border-2 border-[#0b3f50] flex items-center justify-center font-black text-[#0b3f50]">M</div><div><div class="font-black text-[#0b3f50] leading-none">NMRC</div><div class="text-[10px]">Noida Metro Rail Corp</div></div><div class="w-px h-6 bg-slate-300 mx-2"></div><div class="font-bold text-slate-700 text-sm">Agent Management Portal</div></div>
-<div class="flex items-center gap-3 text-sm"><img src="https://i.pravatar.cc/36?img=12" class="w-8 h-8 rounded-full"><div class="leading-tight"><div class="font-bold text-xs">Arvind Kumar</div><div class="text-[10px]">Admin</div></div><i class="fa-solid fa-bell text-slate-500"></i><i class="fa-solid fa-gear text-slate-500"></i></div>
+<body style="background:#eaf6ff;font-family:sans-serif">
+<div style="background:white;padding:10px 16px;display:flex;justify-content:space-between;border-bottom:1px solid #ddd">
+<div style="display:flex;align-items:center;gap:10px"><div style="width:40px;height:40px;border:2px solid #0c4252;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#0c4252">M</div><div><b style="color:#0c4252">NMRC</b><div style="font-size:9px">Noida Metro Rail Corp</div></div><div style="width:1px;height:24px;background:#ddd;margin:0 8px"></div><b style="font-size:14px">Agent Management Portal</b></div>
+<div style="font-size:12px"><b>Arvind Kumar</b> - Admin</div>
 </div>
-<div class="flex">
-<aside class="sidebar w-[220px] min-h-screen text-white p-2 hidden md:block">
-<div class="bg-[#14a79a] rounded-lg px-3 py-2.5 flex gap-3 items-center text-sm font-semibold"><i class="fa-solid fa-house w-5"></i>Dashboard</div>
-<div class="mt-2 space-y-1 text-[13px]">
-<div class="px-3 py-2.5 flex gap-3 opacity-90"><i class="fa-solid fa-train-subway w-5"></i>Station AG Inspection</div>
-<div class="px-3 py-2.5 flex gap-3 opacity-90"><i class="fa-solid fa-list-check w-5"></i>PM Check List</div>
-<div onclick="openF()" class="px-3 py-2.5 flex gap-3 opacity-90 cursor-pointer hover:bg-white/10 rounded"><i class="fa-solid fa-triangle-exclamation w-5"></i>Failure Entry</div>
-<div onclick="openR()" class="px-3 py-2.5 flex gap-3 opacity-90 cursor-pointer hover:bg-white/10 rounded"><i class="fa-solid fa-cube w-5"></i>Material Entry</div>
-<div class="px-3 py-2.5 flex gap-3 opacity-90"><i class="fa-solid fa-boxes-stacked w-5"></i>Inventory Entry</div>
-<div class="px-3 py-2.5 flex gap-3 opacity-90"><i class="fa-solid fa-scroll w-5"></i>Rolls Management</div>
-<div onclick="exportCSV()" class="px-3 py-2.5 flex gap-3 opacity-90 cursor-pointer hover:bg-white/10 rounded"><i class="fa-solid fa-chart-simple w-5"></i>Reports</div>
+
+<div style="display:flex">
+<div style="width:210px;background:#0c4252;color:white;padding:12px;min-height:100vh">
+<div style="background:#1ab5a6;border-radius:8px;padding:10px;font-weight:bold;font-size:14px"><i class="fa-solid fa-house"></i> Dashboard</div>
+<div style="margin-top:12px;font-size:13px;line-height:36px;opacity:0.9">
+<div><i class="fa-solid fa-train"></i> Station AG Inspection</div>
+<div><i class="fa-solid fa-list-check"></i> PM Check List</div>
+<div><i class="fa-solid fa-triangle-exclamation"></i> Failure Entry</div>
+<div><i class="fa-solid fa-cube"></i> Material Entry</div>
+<div><i class="fa-solid fa-box"></i> Inventory Entry</div>
+<div><i class="fa-solid fa-scroll"></i> Rolls Management</div>
+<div><i class="fa-solid fa-chart-bar"></i> Reports</div>
 </div>
-</aside>
-<main class="flex-1 p-3">
-<div class="bg-gradient-to-r from-cyan-50 to-blue-100 rounded-xl border flex justify-between items-center px-5 py-3 mb-3">
-<div class="flex gap-3 items-center"><div class="w-11 h-11 bg-white rounded-full border-2 border-[#0b3f50] flex items-center justify-center font-black text-[#0b3f50]">M</div><div><div class="font-bold text-[#0b3f50]">Noida Metro Rail Corporation</div><div class="text-[11px] tracking-widest">Safe | Reliable | Sustainable</div></div></div>
-<div class="text-right"><div class="font-black text-[#0b3f50] text-lg">Aqua Line</div><div class="text-xs">Noida - Greater Noida</div></div>
 </div>
-<div class="font-bold text-[#0b3f50] text-sm mb-2">Dashboard Overview</div>
-<div id="grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3"></div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-3 mt-4">
-<div class="lg:col-span-5 bg-white rounded-xl shadow p-4"><div class="flex justify-between mb-2"><div class="font-bold text-sm">Roll Issue Overview</div><select class="text-xs border rounded px-2"><option>This Month</option></select></div><canvas id="chart" height="170"></canvas></div>
-<div class="lg:col-span-4 bg-white rounded-xl shadow p-4"><div class="flex justify-between mb-3"><div class="font-bold text-sm"><i class="fa-regular fa-clock mr-2 text-blue-600"></i>Recent Activities</div><div class="text-xs text-blue-600">View All →</div></div><div id="acts" class="space-y-3 text-xs"></div></div>
-<div class="lg:col-span-3 bg-white rounded-xl shadow p-4"><div class="font-bold text-sm mb-3"><i class="fa-solid fa-bolt text-amber-500 mr-2"></i>Quick Actions</div><div class="grid grid-cols-2 gap-2"><button onclick="openF()" class="bg-red-50 border rounded-lg p-3 text-[11px] text-red-700 font-semibold"><i class="fa-solid fa-triangle-exclamation block text-lg mb-1"></i>New Failure Entry</button><button onclick="openR()" class="bg-blue-50 border rounded-lg p-3 text-[11px] font-semibold"><i class="fa-solid fa-plus block mb-1 text-blue-600 text-lg"></i>Add Inventory</button><button onclick="openR()" class="bg-amber-50 border rounded-lg p-3 text-[11px] font-semibold"><i class="fa-solid fa-cube block mb-1 text-amber-600 text-lg"></i>Material Entry</button><button class="bg-purple-50 border rounded-lg p-3 text-[11px] font-semibold"><i class="fa-solid fa-list-check block mb-1 text-purple-600 text-lg"></i>PM Check List</button><button class="bg-teal-50 border rounded-lg p-3 text-[11px] font-semibold"><i class="fa-solid fa-train-subway block mb-1 text-teal-600 text-lg"></i>Station AG Inspection</button><button onclick="exportCSV()" class="bg-pink-50 border rounded-lg p-3 text-[11px] font-semibold text-pink-700"><i class="fa-solid fa-chart-simple block mb-1 text-lg"></i>Reports</button></div></div>
+
+<div style="flex:1;padding:12px">
+<div style="background:linear-gradient(to right,#e0f6fb,#cdeaf2);border:1px solid #bde0ec;border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between">
+<div><b style="color:#0c4252">Noida Metro Rail Corporation</b><div style="font-size:11px">Safe | Reliable | Sustainable</div></div>
+<div style="text-align:right"><b style="color:#0c4252">Aqua Line</b><div style="font-size:11px">Noida - Greater Noida</div></div>
 </div>
-</main>
-</div>
-<div id="mod" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-xl w-full max-w-sm p-5"><div class="flex justify-between mb-3"><h3 id="mt" class="font-bold"></h3><button onclick="closeM()" class="bg-slate-100 w-7 h-7 rounded-full">✕</button></div><div id="mb"></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-let s=JSON.parse(localStorage.getItem('nmrc_pro_final')||'null')||{ft:5,rt:5,pt:0,ptn:1,dc:0,ist:0,qr:2170,tvm:1403,wax:224,rec:743,etm:1323,qri:0,tvmi:0,waxi:0,reci:0,etmi:0};
-function save(){localStorage.setItem('nmrc_pro_final',JSON.stringify(s));render();}
-function render(){
-let items=[{l:'Failure Today',v:s.ft,c:'#ff4d4f',i:'fa-triangle-exclamation'},{l:'Resolved Today',v:s.rt,c:'#22c55e',i:'fa-check'},{l:'Pending Today',v:s.pt,c:'#f59e0b',i:'fa-clock'},{l:'Pending Till Now',v:s.ptn,c:'#a855f7',i:'fa-hourglass-half'},{l:'Damage Case Till Now',v:s.dc,c:'#0ea5e9',i:'fa-shield'},{l:'Inspection Stations Today',v:s.ist,c:'#06b6d4',i:'fa-train-subway'},{l:'Available QR Roll',v:s.qr,c:'#6366f1',i:'fa-qrcode'},{l:'Available TVM Roll',v:s.tvm,c:'#ec4899',i:'fa-ticket'},{l:'Available Wax Roll',v:s.wax,c:'#f59e0b',i:'fa-compact-disc'},{l:'Available Receipt Roll',v:s.rec,c:'#7c3aed',i:'fa-receipt'},{l:'Available ETM Roll',v:s.etm,c:'#10b981',i:'fa-mobile-screen'},{l:'Today QR Roll Issue',v:s.qri,c:'#0ea5e9',i:'fa-qrcode'},{l:'Today TVM Roll Issue',v:s.tvmi,c:'#14b8a6',i:'fa-ticket'},{l:'Today Wax Roll Issue',v:s.waxi,c:'#ef4444',i:'fa-compact-disc'},{l:'Today Receipt Roll Issue',v:s.reci,c:'#14b8a6',i:'fa-receipt'},{l:'Today ETM Roll Issue',v:s.etmi,c:'#8b5cf6',i:'fa-mobile-screen'}];
-document.getElementById('grid').innerHTML=items.map(x=>`<div class="rounded-xl p-4 text-white" style="background:${x.c}"><div class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-slate-800"><i class="fa-solid ${x.i} text-sm"></i></div><p class="text-[11px] mt-3 opacity-90">${x.l}</p><p class="text-xl font-extrabold">${x.v}</p><p class="text-[10px] mt-1 opacity-80">Tap to view details →</p></div>`).join('');
-if(window.c){window.c.destroy();}
-window.c=new Chart(document.getElementById('chart'),{type:'bar',data:{labels:['Wax','Receipt','ETM','QR'],datasets:[{data:[s.wax,s.rec,s.etm,s.qr],backgroundColor:['#f59e0b','#3b82f6','#8b5cf6','#14b8a6'],borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}}});
-}
-function openF(){document.getElementById('mod').classList.remove('hidden');document.getElementById('mod').classList.add('flex');document.getElementById('mt').innerText='New Failure Entry';document.getElementById('mb').innerHTML=`<select id="st" class="w-full border p-2 rounded mb-2 text-sm"><option>Sector 51</option><option>Sector 52</option><option>Alpha 1</option><option>Depot</option></select><input id="de" placeholder="Details" class="w-full border p-2 rounded mb-3 text-sm"><button onclick="addF()" class="w-full bg-[#0b3f50] text-white py-2 rounded font-bold">Submit</button>`;}
-function openR(){document.getElementById('mod').classList.remove('hidden');document.getElementById('mod').classList.add('flex');document.getElementById('mt').innerText='Roll Update';document.getElementById('mb').innerHTML=`<select id="rt" class="w-full border p-2 rounded mb-2 text-sm"><option>QR Roll</option><option>TVM Roll</option><option>Wax Roll</option><option>Receipt Roll</option><option>ETM Roll</option></select><input id="rq" type="number" placeholder="Qty e.g. 50" class="w-full border p-2 rounded mb-2 text-sm"><select id="ra" class="w-full border p-2 rounded mb-3 text-sm"><option>Added</option><option>Issued</option></select><button onclick="addR()" class="w-full bg-blue-600 text-white py-2 rounded font-bold">Update</button>`;}
-function closeM(){document.getElementById('mod').classList.add('hidden');}
-function addF(){s.ft++;s.ptn++;save();closeM();}
-function addR(){let q=parseInt(document.getElementById('rq').value||0),t=document.getElementById('rt').value,a=document.getElementById('ra').value;if(t.includes('QR'))a=='Added'?s.qr+=q:(s.qr-=q,s.qri+=q);if(t.includes('TVM'))a=='Added'?s.tvm+=q:(s.tvm-=q,s.tvmi+=q);if(t.includes('Wax'))a=='Added'?s.wax+=q:(s.wax-=q,s.waxi+=q);if(t.includes('Receipt'))a=='Added'?s.rec+=q:(s.rec-=q,s.reci+=q);if(t.includes('ETM'))a=='Added'?s.etm+=q:(s.etm-=q,s.etmi+=q);save();closeM();}
-function exportCSV(){let csv=Object.entries(s).map(([k,v])=>k+','+v).join('\n');let b=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='NMRC_Report.csv';a.click();}
-document.getElementById('acts').innerHTML=`<div class="flex gap-2"><div class="w-7 h-7 bg-red-100 rounded-full flex items-center justify-center"><i class="fa-solid fa-triangle-exclamation text-red-600 text-[10px]"></i></div><div class="flex-1"><p class="font-bold">New Failure Entry</p><p class="text-slate-500">Station AG - Metro Line</p></div></div><div class="flex gap-2"><div class="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center"><i class="fa-solid fa-box text-blue-600 text-[10px]"></i></div><div class="flex-1"><p class="font-bold">Inventory Updated</p><p class="text-slate-500">Receipt Roll - 743 Added</p></div></div><div class="flex gap-2"><div class="w-7 h-7 bg-green-100 rounded-full flex items-center justify-center"><i class="fa-solid fa-check text-green-600 text-[10px]"></i></div><div class="flex-1"><p class="font-bold">PM Checklist Completed</p><p class="text-slate-500">Station No. 12</p></div></div>`;
-render();
-</script>
-</body>
-</html>
+
+<div style="font-weight:bold;color:#0c4252;margin:14px 0 8px;font-size:13px">Dashboard Overview</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+<div style="background:#ff5252;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-triangle-exclamation" style="background:white;color:#ff5252;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Failure Today</div><div style="font-size:20px;font-weight:900">5</div></div>
+<div style="background:#22c55e;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-check" style="background:white;color:#22c55e;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Resolved Today</div><div style="font-size:20px;font-weight:900">5</div></div>
+<div style="background:#f59e0b;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-clock" style="background:white;color:#f59e0b;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Pending Today</div><div style="font-size:20px;font-weight:900">0</div></div>
+<div style="background:#a855f7;border-radius:12px;padding:14px;color:white"><i class="fa-solid fa-hourglass-half" style="background:white;color:#a855f7;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center"></i><div style="font-size:11px;margin-top:10px">Pending Till Now</div><div style="font-size:20px;font-weight:900">1</div></div>
+
+<div style="background:#0ea5e9;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Damage Case Till Now</div><div style="font-size:20px;font-weight:900">0</div></div>
+<div style="background:#06b6d4;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Inspection Stations Today</div><div style="font-size:20px;font-weight:900">0</div></div>
+<div style="background:#6366f1;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available QR Roll</div><div style="font-size:20px;font-weight:900">2170</div></div>
+<div style="background:#ec4899;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available TVM Roll</div><div style="font-size:20px;font-weight:900">1403</div></div>
+
+<div style="background:#f59e0b;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available Wax Roll</div><div style="font-size:20px;font-weight:900">224</div></div>
+<div style="background:#7c3aed;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available Receipt Roll</div><div style="font-size:20px;font-weight:900">743</div></div>
+<div style="background:#10b981;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Available ETM Roll</div><div style="font-size:20px;font-weight:900">1323</div></div>
+<div style="background:#0ea5e9;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Today QR Roll Issue</div><div style="font-size:20px;font-weight:900">0</div></div>
+
+<div style="background:#14b8a6;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Today TVM Roll Issue</div><div style="font-size:20px;font-weight:900">0</div></div>
+<div style="background:#ef4444;border-radius:12px;padding:14px;color:white"><div style="font-size:11px">Today Wax Roll Issue</div><div style="font-size:20px;font-weight:900">0</div></div>
+<div style="background
