@@ -296,8 +296,7 @@ export default {
           .bind(JSON.stringify(body.state), now)
           .run();
         return ok({ ok: true, updatedAt: now });
-      }
-      return ok({ ok: false, error: "Not found" }, 404);
+      }return env.ASSETS.fetch(request);
     } catch (e) {
       return ok({ ok: false, error: String(e?.message || e) }, 500);
     }
