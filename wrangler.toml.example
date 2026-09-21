@@ -1,0 +1,16 @@
+name = "aurionpro-live-api"
+main = "worker.js"
+compatibility_date = "2026-09-20"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "YOUR_EXISTING_D1_NAME"
+database_id = "YOUR_EXISTING_D1_DATABASE_ID"
+
+# Gmail OAuth configuration (use Cloudflare secrets for the secret values).
+# GMAIL_REDIRECT_URI must be exactly: https://YOUR-PORTAL-DOMAIN/api/gmail/callback
+[vars]
+GMAIL_CLIENT_ID = "YOUR_GOOGLE_OAUTH_CLIENT_ID"
+GMAIL_REDIRECT_URI = "https://aurion-invay.pages.dev/api/gmail/callback"
+# Set GMAIL_CLIENT_SECRET as a Worker secret; do NOT put the secret in this file.
+# Set NMRC_INVENTORY_API_KEY as a Worker secret if your existing deployment uses it.
