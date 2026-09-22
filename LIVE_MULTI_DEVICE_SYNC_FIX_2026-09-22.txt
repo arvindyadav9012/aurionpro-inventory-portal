@@ -1,0 +1,14 @@
+5th issue fixed: Multi-device live CCR sync.
+
+Problem: one device could save a stale full state after another device added a CCR complaint, overwriting the newer record in D1.
+
+Fix:
+- D1 /api/state PUT now merges report record arrays instead of blindly replacing them.
+- CCR records have stable _recordId values for manual OCR and Gmail imports.
+- Gmail records also keep _gmailMessageId as a stable key.
+- New records from another phone are retained when an older phone saves.
+- CCR activities/deletedRecords are merged safely.
+- Portal polling remains 1.5 seconds by default.
+- Existing D1 tables and existing records are not intentionally deleted or reset.
+
+Deploy both updated app.js and worker.js. Keep existing wrangler.toml and D1 binding unchanged.
