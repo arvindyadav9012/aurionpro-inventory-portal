@@ -1,0 +1,20 @@
+NMRC INVENTORY PORTAL - FINAL UPLOAD TEST FILE
+Date: 22 Sep 2026
+
+PURPOSE
+This file is intentionally included as a test marker so the GitHub upload can confirm that the complete final ZIP was extracted and uploaded.
+
+EXPECTED BUILD CONTENT
+- Dashboard: 12 KPI cards
+- Inactivity logout: 180000 ms (3 minutes)
+- CCR: Management, Complaint Received, Complaint Reply / Pending Status, Final Summary
+- CCR Final Summary: 21 fields
+- Gmail auto polling: 30 seconds while portal/session is open
+- Gmail attachment OCR + manual screenshot OCR
+- Manual Sync / live state sync
+- Google Drive backup endpoint configured
+- Deleted record archive / restore / permanent delete logic
+- D1 binding uses env.DB; preserve the repository's existing wrangler.toml
+
+IMPORTANT LIVE-TEST LIMITATION
+This is a code/package verification marker. It does not prove that the live Cloudflare deployment, Google OAuth, Gmail account, or Google Drive account has been successfully exercised from this environment.
