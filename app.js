@@ -4,8 +4,8 @@ const LIVE_SYNC_CONFIG={
   driveBackupUrl:window.NMRC_INVENTORY_DRIVE_BACKUP_URL||'',
   pollMs:Number(window.NMRC_INVENTORY_SYNC_POLL_MS||1500)
 };
-let liveSyncReady=false,liveSyncBusy=false,liveSyncTimer=null;
-async function liveSyncPull(){if(!LIVE_SYNC_CONFIG.apiBase||liveSyncBusy)return;liveSyncBusy=true;try{const r=await fetch(LIVE_SYNC_CONFIG.apiBase+'/state?ts='+Date.now(),{cache:'no-store',headers:{'x-aurion-api-key':window.NMRC_INVENTORY_API_KEY||''}});if(!r.ok)return;const j=await r.json();if(j.ok&&j.state&&typeof j.state==='object'){state={...state,...j.state,records:{...state.records,...(j.state.records||{})}};Object.keys(BASE_REPORTS).forEach(k=>state.records[k] ||= []);state.reportDefs ||= {};state.stations ||= [];state.equipmentMaster ||= [];reports=deepClone(BASE_REPORTS);(state.dynamic||[]).forEach(k=>{if(state.reportDefs[k])reports[k]=state.reportDefs[k]});applyStandardFields();if(currentUser&&!isAdmin()&&Array.isArray(state.users)){const centralUser=state.users.find(x=>String(x?.id||'').toLowerCase()===String(currentUser.id||'').toLowerCase());if(centralUser){currentUser={...currentUser,...centralUser,sessionId:currentSessionId,lastLogin:currentUser.lastLogin||centralUser.lastLogin};applyCCRRolePermissions(currentUser);storageSet('aurion_session_v1',JSON.stringify(currentUser));}}localStorage.setItem('aurion_state_v18',JSON.stringify(state));if(currentUser){renderNav();renderDashboard();if(current==='summary')renderReport();else if(document.querySelector('#app:not(.hidden)'))renderReport();renderLocation();}}liveSyncReady=true}catch(e){console.warn('Live sync pull failed',e)}finally{liveSyncBusy=false}}
+let liveSyncReady=false,liveSyncBusy=false,liveSyncTimer=null,centralUpdatedAt='';
+async function liveSyncPull(){if(!LIVE_SYNC_CONFIG.apiBase||liveSyncBusy)return;liveSyncBusy=true;try{const r=await fetch(LIVE_SYNC_CONFIG.apiBase+'/state?ts='+Date.now(),{cache:'no-store',headers:{'x-aurion-api-key':window.NMRC_INVENTORY_API_KEY||''}});if(!r.ok)return;const j=await r.json();if(j.ok&&j.state&&typeof j.state==='object'){const changed=String(j.updatedAt||'')!==String(centralUpdatedAt||''); centralUpdatedAt=String(j.updatedAt||centralUpdatedAt||''); state={...state,...j.state,records:{...state.records,...(j.state.records||{})}};Object.keys(BASE_REPORTS).forEach(k=>state.records[k] ||= []);state.reportDefs ||= {};state.stations ||= [];state.equipmentMaster ||= [];reports=deepClone(BASE_REPORTS);(state.dynamic||[]).forEach(k=>{if(state.reportDefs[k])reports[k]=state.reportDefs[k]});applyStandardFields();if(currentUser&&!isAdmin()&&Array.isArray(state.users)){const centralUser=state.users.find(x=>String(x?.id||'').toLowerCase()===String(currentUser.id||'').toLowerCase());if(centralUser){currentUser={...currentUser,...centralUser,sessionId:currentSessionId,lastLogin:currentUser.lastLogin||centralUser.lastLogin};applyCCRRolePermissions(currentUser);storageSet('aurion_session_v1',JSON.stringify(currentUser));}}localStorage.setItem('aurion_state_v18',JSON.stringify(state));if(currentUser&&changed){renderNav();renderDashboard();if(current==='summary')renderReport();else if(document.querySelector('#app:not(.hidden)'))renderReport();renderLocation();}}liveSyncReady=true}catch(e){console.warn('Live sync pull failed',e)}finally{liveSyncBusy=false}}
 function startLiveSync(){clearInterval(liveSyncTimer);if(!LIVE_SYNC_CONFIG.apiBase)return;liveSyncPull();liveSyncTimer=setInterval(()=>liveSyncPull(),LIVE_SYNC_CONFIG.pollMs)}
 function stopLiveSync(){clearInterval(liveSyncTimer);liveSyncTimer=null}
 function liveSyncPush(){if(!LIVE_SYNC_CONFIG.apiBase)return;clearTimeout(liveSyncPush._t);liveSyncPush._t=setTimeout(async()=>{try{const r=await fetch(LIVE_SYNC_CONFIG.apiBase+'/state',{method:'PUT',headers:{'content-type':'application/json','x-aurion-api-key':window.NMRC_INVENTORY_API_KEY||''},body:JSON.stringify({state,clientId:storageGet('aurion_client_id','')})});if(!r.ok)throw new Error('HTTP '+r.status);liveSyncReady=true}catch(e){console.warn('Live sync push failed',e)}},50)}
@@ -21,7 +21,7 @@ async function manualSyncNow(){
   }catch(e){alert('Manual Sync failed: '+e.message)}
 }
 async function backupToGoogleDrive(){if(!LIVE_SYNC_CONFIG.driveBackupUrl)return alert('Google Drive backup URL is not configured yet. Add NMRC_INVENTORY_DRIVE_BACKUP_URL in config.js.');try{const r=await fetch(LIVE_SYNC_CONFIG.driveBackupUrl,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({filename:'NMRC_INVENTORY_BACKUP.xlsx',sheetName:'NMRC_INVENTORY_BACKUP',sheets:driveBackupSheets(),deletedFolder:'NMRC_INVENTORY_DELETED',deletedRecords:state.deletedRecords||[],state,updatedAt:new Date().toISOString()})});const data=await r.json().catch(()=>({}));if(!r.ok||data.ok===false)throw new Error(data.error||('Backup endpoint returned '+r.status));let msg='Google Drive backup completed successfully.\n\nExcel: '+(data.xlsxUrl||'created in Drive')+'\nGoogle Sheet: '+(data.spreadsheetUrl||'created in Drive');alert(msg)}catch(e){alert('Google Drive backup failed: '+e.message)}}
-let driveBackupTimer=null;function scheduleDriveBackup(){if(!LIVE_SYNC_CONFIG.driveBackupUrl)return;clearTimeout(driveBackupTimer);driveBackupTimer=setTimeout(()=>{backupToGoogleDrive().catch(()=>{});},1000)}
+let driveBackupTimer=null;function scheduleDriveBackup(){/* Google Drive backup is manual only; never interrupt login or normal saves. */}
 function openFinalSummaryExcel(){exportExcel('summary')}
 
 const BASE_REPORTS={
@@ -48,7 +48,7 @@ Object.keys(BASE_REPORTS).forEach(k=>state.records[k] ||= []);
 state.reportDefs ||= {}; state.stations ||= []; state.equipmentMaster ||= []; applyStandardFields();
 let current='station',editIndex=null,userEditIndex=null,currentUser=null; let currentSessionId=''; let liveLocationTimer=null;
 const $=id=>document.getElementById(id);
-function save(){localStorage.setItem('aurion_state_v18',JSON.stringify(state));liveSyncPush();scheduleDriveBackup();}
+function save(){localStorage.setItem('aurion_state_v18',JSON.stringify(state));liveSyncPush();}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function attr(v){return esc(v).replace(/\n/g,' ')}
 function isAdmin(){return currentUser?.id==='admin'}
@@ -56,8 +56,33 @@ function permsFor(user,key){if(isAdmin())return {view:true,add:true,edit:true,de
 function roleLabel(key){return reports[key]?.title||STATIC_ROLES.find(x=>x[0]===key)?.[1]||key}
 function storageGet(key, fallback=''){try{return localStorage.getItem(key)??fallback}catch(e){return fallback}}
 function storageSet(key,value){try{localStorage.setItem(key,value);return true}catch(e){return false}}
+async function checkLocationPermission(){
+  if(!navigator.geolocation) return {ok:false,state:'unsupported'};
+  try{
+    if(navigator.permissions?.query){
+      const p=await navigator.permissions.query({name:'geolocation'});
+      if(p.state==='granted'){storageSet('nmrc_location_permission_v1','granted');return {ok:true,state:'granted'};}
+      if(p.state==='denied')return {ok:false,state:'denied'};
+    }
+  }catch(_){}
+  try{
+    await new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:10000,maximumAge:0}));
+    storageSet('nmrc_location_permission_v1','granted');
+    return {ok:true,state:'granted'};
+  }catch(e){return {ok:false,state:e?.code===1?'denied':'error'};}
+}
+async function requireLocationAccess(){
+  const gate=$('locationGate');
+  if(gate)gate.classList.remove('hidden');
+  const result=await checkLocationPermission();
+  if(result.ok){if(gate)gate.classList.add('hidden');return true;}
+  if(gate){gate.innerHTML=`<div class=\"location-gate-box\"><h3>Location Access Required</h3><p>Location access is required to use NMRC INVENTORY.</p><p class=\"muted\">Please allow Location in your browser settings, then tap Retry.</p><button class=\"login-btn\" type=\"button\" onclick=\"requireLocationAccess()\">Retry Location</button></div>`;}
+  return false;
+}
 async function login(){
  try{
+  if(!(await checkLocationPermission()).ok){await requireLocationAccess();return false;}
+
   // Pull the latest central users before authentication so APKs can use users created/updated by Admin.
   if(LIVE_SYNC_CONFIG.apiBase){ try{ await liveSyncPull(); }catch(_){} }
   startLiveSync();
@@ -81,7 +106,7 @@ async function login(){
   const lp=$('loginPage'), app=$('app');
   if(!lp||!app) throw new Error('Login screen not found');
   lp.classList.add('hidden'); app.classList.remove('hidden');
-  setHeader(); renderNav(); renderDashboard(); showDashboard(); startLiveLocationTracking(); ccrAutoPoll();
+  setHeader(); renderNav(); renderDashboard(); showDashboard(); captureLoginLocation(); ccrAutoPoll();
   return false;
  }catch(e){console.error('Login failed',e);alert('Login error: '+(e?.message||'Please try again.'));return false}
 }
@@ -89,6 +114,8 @@ window.login=login;
 
 ['click','touchstart','keydown','mousemove','scroll'].forEach(ev=>document.addEventListener(ev,markUserActivity,{passive:true}));
 document.addEventListener('DOMContentLoaded',()=>{
+  const loginCard=document.querySelector('#loginPage .login-card');
+  if(loginCard && !document.getElementById('locationGate')){const gate=document.createElement('div');gate.id='locationGate';gate.className='location-gate hidden';gate.innerHTML='<div class=\"location-gate-box\"><h3>Checking Location Access...</h3><p class=\"muted\">Location permission is required to use this portal.</p></div>';loginCard.appendChild(gate);}
   const btn=$('loginBtn');
   if(btn){
     btn.type='button';
@@ -96,6 +123,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
   const pass=$('password');
   if(pass) pass.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();login();}});
+  requireLocationAccess();
   try{
     const raw=storageGet('aurion_session_v1','');
     if(raw){
@@ -125,7 +153,7 @@ function resetIdleLogoutTimer(){
  idleLogoutTimer=setTimeout(()=>{if(currentUser){alert('Session expired after 3 minutes of inactivity. Please login again.');logout();}},180000);
 }
 function markUserActivity(){if(currentUser)resetIdleLogoutTimer()}
-function logout(){
+async function logout(){
  clearTimeout(idleLogoutTimer);
  const logoutTime=new Date().toISOString();
  if(currentUser){
@@ -350,10 +378,11 @@ function editRecord(i){if(current==='summary'){alert('Final Summary is generated
 function deleteRecord(i){if(!isAdmin()){alert('Only Admin can delete report records.');return}if(current==='summary'){alert('Final Summary is generated automatically from report entries. Delete the original report entry instead.');return}const row=(state.records[current]||[])[i];if(!row)return;if(!confirm('Delete this record? It will be moved to Deleted Records and kept until Admin permanently deletes it.'))return;state.deletedRecords ||= [];state.deletedRecords.push({reportKey:current,reportName:reports[current].title,record:deepClone(row),deletedBy:currentUser.name||currentUser.id,deletedAt:new Date().toISOString()});state.records[current].splice(i,1);state.activities.push(`${reports[current].title} record moved to Deleted Records by ${currentUser.name}`);save();renderReport();renderDashboard()}
 async function reverseLocationName(lat,lng){try{const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}&zoom=18&addressdetails=1`,{headers:{'Accept':'application/json'}});if(!r.ok)return 'Live GPS Location';const j=await r.json();return j.display_name||'Live GPS Location'}catch(e){return 'Live GPS Location'}}
 let liveLocationWatchId=null; let lastLiveLocationAt=0;
-function recordLiveLocation(pos,attachRecord){if(!currentUser||!pos?.coords)return;const now=Date.now();if(now-lastLiveLocationAt<15000)return;lastLiveLocationAt=now;const lat=Number(pos.coords.latitude),lng=Number(pos.coords.longitude),iso=new Date(now).toISOString();const gpsUrl=`https://www.google.com/maps?q=${lat},${lng}`;const loc={_locationId:`${currentUser.id}-${now}-${Math.random().toString(36).slice(2,7)}`,sessionId:currentSessionId,employeeCode:currentUser.employeeCode||currentUser.code||currentUser.id||'',employeeId:currentUser.id||'',userId:currentUser.id||'',name:currentUser.name||'',employeeName:currentUser.name||'',loginDateTime:currentUser.loginDateTime||iso,logoutDateTime:'',datetime:iso,lat,lng,gpsUrl,map:gpsUrl,locationName:'Live GPS Location'};state.locations ||= [];state.locations.push(loc);if(attachRecord){const recs=state.records[current]||[];const target=recs[editIndex===null?recs.length-1:editIndex];if(target){target._lat=lat;target._lng=lng;target._map=loc.map;target._locationName=loc.locationName;target._locationTime=iso;}}liveSyncPush();renderLocation();if(current==='summary')renderReport();reverseLocationName(lat,lng).then(name=>{const x=state.locations.find(v=>v._locationId===loc._locationId);if(x&&name){x.locationName=name;liveSyncPush();renderLocation();}}).catch(()=>{});}
-function captureLocation(data){if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>recordLiveLocation(pos,true),()=>{}, {enableHighAccuracy:true,timeout:10000,maximumAge:0});}
-function startLiveLocationTracking(){if(!currentUser||!navigator.geolocation||liveLocationWatchId!==null)return;lastLiveLocationAt=0;try{navigator.geolocation.getCurrentPosition(pos=>recordLiveLocation(pos,false),err=>console.warn('Initial live location unavailable',err),{enableHighAccuracy:true,timeout:10000,maximumAge:0});liveLocationWatchId=navigator.geolocation.watchPosition(pos=>recordLiveLocation(pos,false),err=>console.warn('Live location unavailable',err),{enableHighAccuracy:true,maximumAge:15000,timeout:20000});liveLocationTimer=setInterval(()=>{if(currentUser&&navigator.geolocation)navigator.geolocation.getCurrentPosition(pos=>recordLiveLocation(pos,false),()=>{},{enableHighAccuracy:true,timeout:10000,maximumAge:0});},30000);}catch(e){console.warn('Live location start failed',e)}}
-function stopLiveLocationTracking(){if(liveLocationWatchId!==null&&navigator.geolocation){try{navigator.geolocation.clearWatch(liveLocationWatchId)}catch(_){}}liveLocationWatchId=null;if(liveLocationTimer){clearInterval(liveLocationTimer);liveLocationTimer=null;}lastLiveLocationAt=0;}
+function recordOneLocation(pos,kind){if(!currentUser||!pos?.coords)return;const now=Date.now(),iso=new Date(now).toISOString(),lat=Number(pos.coords.latitude),lng=Number(pos.coords.longitude),gpsUrl=`https://www.google.com/maps?q=${lat},${lng}`;state.locations ||= [];let x=state.locations.find(v=>v.sessionId===currentSessionId);if(!x){x={_locationId:`${currentSessionId}`,sessionId:currentSessionId,employeeCode:currentUser.employeeCode||currentUser.code||currentUser.id||'',employeeId:currentUser.id||'',userId:currentUser.id||'',name:currentUser.name||'',loginDateTime:currentUser.loginDateTime||iso,logoutDateTime:'',datetime:iso,lat,lng,gpsUrl,map:gpsUrl,locationName:'Live GPS Location'};state.locations.push(x);}if(kind==='login'){x.loginDateTime=currentUser.loginDateTime||iso;x.loginLat=lat;x.loginLng=lng;x.loginGpsUrl=gpsUrl;}else{x.logoutDateTime=iso;x.logoutLat=lat;x.logoutLng=lng;x.logoutGpsUrl=gpsUrl;x.datetime=iso;x.lat=lat;x.lng=lng;x.gpsUrl=gpsUrl;x.map=gpsUrl;}save();renderLocation();reverseLocationName(lat,lng).then(name=>{x.locationName=name||x.locationName;save();renderLocation();}).catch(()=>{});}
+function captureLoginLocation(){if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>recordOneLocation(pos,'login'),()=>{}, {enableHighAccuracy:true,timeout:10000,maximumAge:0});}
+function captureLogoutLocation(){return new Promise(resolve=>{if(!navigator.geolocation)return resolve(false);navigator.geolocation.getCurrentPosition(pos=>{recordOneLocation(pos,'logout');resolve(true)},()=>resolve(false),{enableHighAccuracy:true,timeout:10000,maximumAge:0});});}
+function startLiveLocationTracking(){captureLoginLocation()}
+function stopLiveLocationTracking(){}
 function renderLocation(){if($('locationActions'))$('locationActions').innerHTML=isAdmin()?'<button class="btn gray" onclick="exportLocationExcel()">Export Excel</button><button class="btn gray" onclick="printLocation()">Export PDF</button>':'';const b=$('locationBody');b.innerHTML=state.locations.map(x=>{const url=x.gpsUrl||x.map||'';return `<tr><td>${esc(x.employeeCode||x.employeeId||x.userId||'')}</td><td>${esc(x.employeeId||x.userId||'')}</td><td>${esc(x.name||x.employeeName||'')}</td><td>${esc(x.loginDateTime?new Date(x.loginDateTime).toLocaleString():'—')}</td><td>${esc(x.logoutDateTime?new Date(x.logoutDateTime).toLocaleString():'Active')}</td><td>${esc(new Date(x.datetime).toLocaleString())}</td><td>${Number(x.lat).toFixed(6)}</td><td>${Number(x.lng).toFixed(6)}</td><td>${url?`<a href="${attr(url)}" target="_blank" rel="noopener">GPS URL</a>`:'—'}</td><td>${url?`<a class="btn gray" href="${attr(url)}" target="_blank" rel="noopener">Open Map</a>`:'—'}</td><td>${esc(x.locationName||'Live GPS Location')}</td></tr>`}).join('')||'<tr><td colspan="11" class="empty">No live GPS entries yet. Allow location access on the employee device.</td></tr>'} 
 
 function deleteLocation(i){if(!isAdmin())return;if(!confirm('Delete location entry?'))return;state.locations.splice(i,1);save();renderLocation()}

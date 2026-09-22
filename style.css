@@ -184,3 +184,4 @@ html,body{overflow:hidden!important}
  .login-card{width:min(390px,calc(100vw - 16px))!important;max-height:calc(100dvh - 16px)!important;padding:20px 18px!important;border-radius:16px!important}
  .brand-main{font-size:32px!important}.brand-pro{font-size:22px!important}.portal-title{font-size:16px!important}.company{margin:4px 0 10px!important}
 }
+.location-gate{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.96);z-index:50;border-radius:inherit;padding:24px}.location-gate.hidden{display:none}.location-gate-box{text-align:center;max-width:360px}.location-gate-box h3{margin:0 0 10px}.location-gate-box p{margin:8px 0}
