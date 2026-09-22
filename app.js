@@ -186,9 +186,25 @@ function applyCCRRolePermissions(user){
   if(legacy && !Object.keys(user.ccrPermissions).length){
     Object.keys(CCR_REPORT_KEYS).forEach(k=>user.ccrPermissions[k]={...legacy});
   }
+  const roles=getCCRRoles(user);
+  const hasExplicit=Object.keys(CCR_REPORT_KEYS).some(k=>user.ccrPermissions?.[k] && Object.values(user.ccrPermissions[k]).some(Boolean));
+  if(!hasExplicit && roles.length){
+    const grants={
+      'CCR Admin':{view:true,add:true,edit:true,delete:true},
+      'CCR Manager':{view:true,add:true,edit:true,delete:true},
+      'CCR User':{view:true,add:true,edit:true,delete:false},
+      'CCR Reply User':{view:true,add:false,edit:true,delete:false},
+      'CCR View Only':{view:true,add:false,edit:false,delete:false}
+    };
+    Object.keys(CCR_REPORT_KEYS).forEach(k=>{
+      const g=roles.map(r=>grants[r]).filter(Boolean);
+      user.ccrPermissions[k]=g.reduce((a,x)=>({view:a.view||x.view,add:a.add||x.add,edit:a.edit||x.edit,delete:a.delete||x.delete}),{view:false,add:false,edit:false,delete:false});
+    });
+  }
 }
 function ccrPerms(user,key){
   if(isAdmin())return {view:true,add:true,edit:true,delete:true};
+  applyCCRRolePermissions(user);
   return user?.ccrPermissions?.[key]||{view:false,add:false,edit:false,delete:false};
 }
 function ccrViewRows(rows){
