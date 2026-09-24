@@ -1,0 +1,1 @@
+Restored the proven V25 light single-viewport login composition and clean metro background. Kept latest V25 app.js/worker.js fixes and Station AG Inspection form changes. Login title corrected to INVENTORY DASHBOARD PORTAL.

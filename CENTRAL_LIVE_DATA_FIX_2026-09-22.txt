@@ -1,0 +1,1 @@
+V8 central D1 live sync: continuous polling for restored sessions, central permission refresh, cache-busting GET, merged records/users/locations. Existing D1 preserved.

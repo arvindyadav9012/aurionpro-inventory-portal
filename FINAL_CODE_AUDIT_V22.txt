@@ -1,0 +1,7 @@
+
+JS syntax: PASS
+Station defaults: 21 exact names
+Equipment master defaults: Automatic Gate names AG, BIDI AG, Entry AG, Entry BIDI AG, Exit AG, Exit Bidi AG
+Delete persistence: record tombstones + permanent deletion tombstones
+Location: login/logout only; no live timer
+CCR code was not intentionally modified

@@ -1,0 +1,10 @@
+V18 changes requested by user:
+- Menu bar reorganized into Main Dashboard, NMRC Master Management, Agent Inventory, CCR Management, Reports.
+- NMRC Master Management includes User Management, User Creation, Station Name, Equipment Master, Component Master, Agent Entry Master.
+- Agent Inventory includes Station AG Inspection, PM Checklist, Failure Entry, Material Entry, Inventory Entry, Add New Entry.
+- CCR Management includes CCR Dashboard, Complaint Receive, Complaint Reply, Pending Status, CCR Final Summary.
+- Reports includes NMRC Final Summary, Agent Location History, Theme Settings & Backup, Deleted Records.
+- CCR Final Summary remains CCR-only; Reports Final Summary remains NMRC Inventory-only.
+- All report pages have filters, record totals, Excel export, PDF export, and Admin-only import.
+- CCR report views also have filters, totals, Excel/PDF export and Admin-only import.
+- Agent Entry Master is a dedicated Admin view under NMRC Master Management.

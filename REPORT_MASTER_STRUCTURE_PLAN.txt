@@ -1,0 +1,115 @@
+NMRC INVENTORY - REPORT / MASTER / EXCEL IMPORT STRUCTURE
+============================================================
+
+BASELINE
+--------
+Use the latest available portal build as the baseline. Preserve existing login,
+visual design, dashboard design, photo/camera capture, OCR, location capture,
+D1/API compatibility, live sync, APK/API compatibility, users and existing data.
+CCR is a separate module and is NOT modified by this upgrade.
+
+MASTER DATA
+-----------
+System: Automatic Gate
+Sub System values currently supplied:
+- AG
+- BIDI AG
+- Exit AG
+- Exit Bidi AG
+
+Component Master (single unique names):
+- GV7 MB
+- Processor
+- Display Driver Board
+- Sensor Cable
+- Proximity Sensor
+- MIB Board
+- FEIG Faulty
+- Slave Side(BIDI) Flap Damage
+- Pcm Board faulty
+- Flap Damage
+- Display
+- QR Scanner
+- QR Glass
+- GV Sticker
+- SMPS
+- Lamp
+- Buzzer
+- Mother Board
+- Comm Cable
+- AG Sensor
+- Magnetic Plate
+
+EXCEL IMPORT
+------------
+Column names are mapped by normalized header name. Duplicate source headers
+are not allowed in the cleaned template; Processor is a single column.
+Original Remark and Action Remarks remain separate and unchanged.
+A row's component values remain in their own component columns.
+Import must not merge component values into Remark.
+
+STATION / AG REPORT
+-------------------
+The Station AG Inspection page is the primary source for the supplied Excel
+inspection data. It contains the supplied Excel fields plus existing equipment
+inspection fields needed by the portal.
+
+DATE RULE
+---------
+Every new Agent entry gets the current entry date automatically when Date is
+blank. Date remains editable only according to report permissions.
+
+AUTO SELECT
+-----------
+Station, System, Sub System, Equipment and component values use Master data
+where applicable. New Master values can be added by Admin without changing the
+report schema.
+
+FINAL SUMMARY
+-------------
+Final Summary is Inventory/AG data only. CCR records are excluded completely.
+It aggregates the non-CCR inventory/AG reports and includes the complete
+relevant Excel/inspection fields so filtered data can be reviewed in one place.
+
+Final Summary filters:
+- From Date / To Date
+- Agent
+- Report
+- Station
+- System
+- Sub System
+- Equipment Name
+- Status
+- Component/Part
+
+The Final Summary always shows only records matching the active filters.
+Reset shows all Inventory/AG records.
+
+FINAL SUMMARY TOTALS
+--------------------
+A totals row is shown below the filtered data.
+It includes total record count and numeric totals for component/fault/quantity
+fields where values are numeric. Non-numeric text fields are not summed.
+
+ADMIN FINAL SUMMARY RIGHTS
+--------------------------
+Admin has Add, Edit, Delete, Import Excel/CSV, Export, Export to Excel and
+Export to PDF for the Inventory Final Summary/report data.
+CCR rights remain separate and unchanged.
+
+DATA SEPARATION
+---------------
+Inventory/AG data -> Inventory reports -> Inventory Final Summary -> Dashboard.
+CCR data -> CCR reports -> CCR Final Summary.
+No CCR record is included in Inventory Final Summary.
+
+DASHBOARD
+---------
+Existing dashboard layout/design/cards remain unchanged. Counts can consume the
+central inventory data, but no visual redesign is part of this upgrade.
+
+SAFETY
+------
+Do not overwrite wrangler/D1 bindings. Do not delete existing records. Do not
+modify CCR role/permission logic. Do not alter capture/location/design code
+except where required to attach the entry date to a report record.

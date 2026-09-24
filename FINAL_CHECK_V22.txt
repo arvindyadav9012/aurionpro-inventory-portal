@@ -1,0 +1,41 @@
+NMRC INVENTORY PORTAL V22 FINAL CODE CHECK
+===========================================
+
+1. Persistence / Live Sync
+- Shared state remains on existing D1 sync table/API.
+- New records receive a stable _recordId.
+- Server merge now honours record deletion tombstones.
+- Login/logout no longer restores deleted report rows from the central state.
+- Station and Equipment Master deletions have tombstones so live sync cannot resurrect them.
+- Default station/equipment values are re-seeded after a sync pull and pushed when newly added.
+
+2. Deleted Records
+- Normal Delete removes the row from its report and moves a copy to Deleted Records.
+- Deleted rows remain hidden from normal reports after login/logout.
+- Restore removes the deletion tombstone.
+- Permanent Delete first sends the deleted record to the Google Drive backup endpoint, then removes it from portal Deleted Records.
+- A permanent-deletion tombstone prevents another device/live sync from bringing the record back.
+
+3. Google Drive
+- Permanent-deletion JSON backup uses the stable recordKey as the Drive filename key.
+- Existing Google Drive backup URL/configuration was preserved.
+
+4. Master Data
+- All 21 requested station names are seeded exactly.
+- Equipment Master is seeded with the exact equipment/sub-system names found in the supplied NMRC import templates: AG, BIDI AG, Entry AG, Entry BIDI AG, Exit AG, Exit Bidi AG. Existing Equipment Master entries are preserved.
+- Component Master list is preserved.
+
+5. Page-specific UI
+- Station AG Inspection has separate inspection/equipment/component/photo sections.
+- PM Checklist has its own checklist workflow.
+- Failure Entry has separate failure details and fault-classification sections.
+- Material Entry has material details and remarks sections.
+- Inventory Entry has inventory details and stock-movement sections.
+- Add New Inventory has its own new-inventory and remarks sections.
+- CCR code/data/roles were not intentionally modified.
+
+6. Verification
+- node --check passed for all JavaScript files.
+- Static assertions for 21 stations, equipment names, deletion tombstones and distinct form classes passed.
+- ZIP integrity test passed on source base before V22 repack.
+- Direct production live test was not possible from this environment because the production hostname/API was not network-resolvable here; no claim of production deployment/testing is made.

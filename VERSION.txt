@@ -1,0 +1,1 @@
+V27.6 - CCR Management final scope update + 10 minute inactivity logout

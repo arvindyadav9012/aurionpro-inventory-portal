@@ -1,0 +1,11 @@
+ISSUE 6 FIXED - LIVE LOCATION + LOGIN/LOGOUT SESSION TIME
+
+1. Each login creates a unique session ID tied to Employee ID and Name.
+2. Login Date & Time is stored for the session.
+3. Browser GPS tracking starts after login and updates while the portal is open.
+4. GPS is captured via watchPosition plus a 30-second refresh.
+5. Every location row carries Employee Code, Employee ID, Name, session login time, location time, latitude, longitude, GPS URL, Map and Location Name.
+6. On explicit Logout, the session Logout Date & Time is written to all location rows from that session.
+7. Login/logout/session location data is merged centrally in D1 live sync.
+8. Existing data is preserved.
+9. Explicit logout is required to record logout time; closing the browser/app may not produce a logout event.
